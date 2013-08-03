@@ -11,7 +11,7 @@ package
 		public var sprite:FlxSprite;
 		public var type:Number = 0;
 		
-		public var solid:Number = 0;
+		public var broke:Number = 0;
 		
 		public function Branch(X:Number = 0, Y:Number = 0, Type:Number = 0)
 		{
@@ -22,6 +22,17 @@ package
 				sprite.loadGraphic(DataRegistry.branch, false, false);
 				sprite.height = 48;
 				sprite.offset.y = 6;
+			}
+			else if(type == 2)
+			{
+				sprite.height = 25;
+				sprite.offset.y = -4;
+				sprite.offset.x = -2;
+				FlxG.watch(sprite, "height", "Branch 2 width");
+				FlxG.watch(sprite.offset, "y", "Branch 2 offY");
+				FlxG.watch(sprite.offset, "x", "Branch 2 offx");
+				FlxG.watch(sprite, "x", "Branch 2 X");
+				FlxG.watch(sprite, "y", "Branch 2 Y");
 			}
 			else if (type == 3)
 			{
@@ -45,8 +56,8 @@ package
 			{
 				if(type != 0)
 				{
-					solid += FlxG.elapsed;
-					if(solid >= 0.3)
+					broke += FlxG.elapsed;
+					if(broke >= 0.3)
 					{
 						sprite.immovable = !broken;
 						sprite.acceleration.y = 420;

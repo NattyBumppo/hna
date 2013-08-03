@@ -16,6 +16,7 @@ package
 		public var facing:uint;
 		public var cutscene:Boolean = false;
 		public var isJumping:Boolean;
+		public var isFalling:Boolean;
 		public var isHanging:Boolean;
 		public var isClimbing:Boolean;
 		public var isSlowFalling:Boolean;
@@ -94,8 +95,8 @@ package
 				//MOVEMENT
 				//left and right
 				position.acceleration.x = 0;
-				//if(FlxG.keys.justPressed("D"))
-					//_freeMove = !_freeMove;
+				if(FlxG.keys.justPressed("D"))
+					_freeMove = !_freeMove;
 				if(!_freeMove)
 				{
 					remove(_freeSquare);
@@ -132,6 +133,7 @@ package
 						if(isJumping)
 						{
 							isJumping = false;
+							isFalling = true;
 							position.velocity.y = position.velocity.y / 2;
 						}
 					}
@@ -219,6 +221,7 @@ package
 			{
 				isHanging = false;
 				isClimbing = false;
+				isFalling = false;
 				isSlowFalling = false
 			}
 			//update after changes
@@ -491,7 +494,7 @@ package
 					_runningSprite.y = position.y;	
 				}
 			}
-				//jump
+			//jump
 			else if(position.velocity.y != 0 && !isSlowFalling)
 			{
 				add(_jumpSprite);
@@ -523,6 +526,7 @@ package
 					{
 						//FlxG.log("ldslkjf");
 						add(_fallSprite);
+						isFalling = true;
 						_fallSprite.play("fall");
 						_fallSprite.facing = facing;
 						remove(_jumpSprite);
@@ -656,7 +660,7 @@ package
 				{
 					//climb code
 					//do this after animations
-					position.y -= 96;
+					position.y -= 96.1;	//0.1 fixes animation weirdness after climbing breakable branches
 					if(facing == FlxObject.LEFT)
 						position.x -= 16;
 					else if(facing == FlxObject.RIGHT)

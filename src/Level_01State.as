@@ -308,15 +308,15 @@ package
 				}
 				//death
 				//branches
-				if(_branch1.solid < 0.33)
+				if(_branch1.broke < 0.33)
 					FlxG.collide(_player.position, _branch1);
 				else
 					FlxG.collide(_branch1, map);
-				if(_branch2.solid < 0.33)
+				if(_branch2.broke < 0.33)
 					FlxG.collide(_player.position, _branch2);
 				else
 					FlxG.collide(_branch2, map);
-				if(_branch3.solid < 0.33)
+				if(_branch3.broke < 0.33)
 					FlxG.collide(_player.position, _branch3);
 				else
 					FlxG.collide(_branch3, map);
@@ -734,7 +734,7 @@ package
 					//other case
 					_branch1 = new Branch(1832, 1346,1);
 					_branch1.sprite.loadGraphic(DataRegistry.branch1, false, false, 139, 36);
-					_branch2 = new Branch(2038, 931, 2);
+					_branch2 = new Branch(2044, 927, 2);
 					_branch2.sprite.loadGraphic(DataRegistry.branch2, false, false, 130, 25);
 					_branch3 = new Branch(1120, 768, 3);
 					_branch3.sprite.scale.x = 1.2;
@@ -865,7 +865,6 @@ package
 					add(_branch1);
 					add(_branch2);
 					add(_branch3);
-					add(_branchSensors);
 					add(_wolf)
 					add(_wolfWall);
 					add(_wolfFloor);
@@ -877,6 +876,8 @@ package
 					add(_items);
 					add(_meat);
 					add(fg);
+					add(_branchSensors);
+					add(_hangSensors);
 					add(inventory);
 					add(overlay);
 					add(_screenFade);
@@ -938,10 +939,12 @@ package
 				{
 					//sensors
 					if(sensorsMapR.getTile(rx, ry) == 1)
+					{
 						_hangSensors.add(new FlxObject(((rx-1)*32) + 2, ry*32, 32, 1));
+						FlxG.log("Sensor at: " + (rx-1)*32 + 2 + ", " + ry*32);
+					}
 				}
 			}
-			add(_hangSensors);
 		}
 		private function item(Object1:FlxObject, Object2:FlxObject):void
 		{
@@ -1070,9 +1073,9 @@ package
 		}
 		private function branch(Object1:FlxObject, Object2:FlxObject):void
 		{
-			if(!_player.isClimbing && !_player.isHanging && !_player.isJumping && !_player.isSlowFalling)
+			if(!_player.isClimbing && !_player.isHanging && !_player.isJumping && !_player.isFalling && !_player.isSlowFalling)
 			{
-				FlxG.log("hkdjfhdkjfhsljfdhf");
+				//FlxG.log("hkdjfhdkjfhsljfdhf");
 				for each(var s:FlxObject in _branchSensors.members)
 				{
 					if(Object2 == s)
@@ -1085,6 +1088,14 @@ package
 						else if(s.x == _branch2.sprite.x && s.y == _branch2.sprite.y)
 						{
 							_branch2.snap();
+							for each(var x:FlxObject in _hangSensors.members)
+							{
+								if(x.y == 928)
+								{
+									if(x.exists)	
+										x.exists = false;
+								}
+							}
 						}
 						else if(s.x == _branch3.sprite.x && s.y == _branch3.sprite.y)
 						{
