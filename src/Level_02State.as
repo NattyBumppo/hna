@@ -265,7 +265,7 @@ package
 						_nSound = false;
 					}
 				}
-				if(_axNar == 1)
+				if(_axNar == 1 && _headNar == 2 && _handleNar == 1)
 				{
 					_narrateTimer += FlxG.elapsed;
 					if(_narrateTimer > 0 && !_nSound)
