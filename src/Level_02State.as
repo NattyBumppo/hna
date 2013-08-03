@@ -362,6 +362,8 @@ package
 					if(_narrateTimer > 0 && !_nSound)
 					{
 						_player.cutscene = true;
+						_player.position.velocity.x = 0;
+						_player.position.acceleration.x = 0;
 						FlxG.play(P2_006);
 						_nSound = true;
 					}
@@ -377,21 +379,21 @@ package
 						if(!_narrator.isNarrating)
 							_narrator.narrate("...it's easy to kick a man who is down, is it?");
 					}
-					if(_narrateTimer >= 10 && _narrateTimer < 10.1)
+					if(_narrateTimer >= 8 && _narrateTimer < 8.1)
 					{
+						_player.cutscene = false;
 						_narrator.timeToDisplay = 3;
 						if(!_narrator.isNarrating)
 							_narrator.narrate("...The girl asked nicely for the second half of the dwarf's axe.");
 					}
-					if(_narrateTimer >= 14 && _narrateTimer < 14.1)
+					if(_narrateTimer >= 12 && _narrateTimer < 12.1)
 					{
 						_narrator.timeToDisplay = 3;
 						if(!_narrator.isNarrating)
 							_narrator.narrate("He kindly gave it to her.");
 					}
-					if(_narrateTimer >= 18 && _narrateTimer < 18.1)
+					if(_narrateTimer >= 16 && _narrateTimer < 16.1)
 					{
-						_player.cutscene = false;
 						_kickNar = 2;
 						_narrateTimer = 0;
 						_nSound = false;
